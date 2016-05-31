@@ -1,0 +1,58 @@
+#!/bin/sh
+
+min=`date +%M`
+hour=`date +%H`
+day=`date +%d`
+mon=`date +%m`
+dow=`date +%w`
+
+if [ "$1" == "--help" ]; then
+	echo "Usage: autorun-parts PATH..."
+	echo "Go through a directory of scripts and execute the ones that \"want\" to be executed."
+	echo "See the README for more information."
+	exit
+fi
+
+res=1
+case "$1" in
+	-h)
+	res=2
+	shift
+	;;
+	-d)
+	res=3
+	shift
+	;;
+	-m)
+	res=4
+	shift
+	;;
+esac
+
+for d in "$@"; do
+	for f in "$d"/*; do
+		[ -x "$f" ] || continue # skip non-executable files
+		tag=`grep "#@" "$f"`
+		[ -z "$tag" ] && continue # skip files without the autorun-parts tag
+		tag=`echo "$tag" | tr -s [[:space:]] " "`
+		smin=`echo "$tag" | cut -f2 -d\ `
+		shour=`echo "$tag" | cut -f3 -d\ `
+		sday=`echo "$tag" | cut -f4 -d\ `
+		smon=`echo "$tag" | cut -f5 -d\ `
+		sdow=`echo "$tag" | cut -f6 -d\ `
+		# match date and time
+		if [ "$smin" != "*" ] && [ $min -ne $smin ] && [ $res -lt 2 ]; then
+			continue
+		elif [ "$shour" != "*" ] && [ $hour -ne $shour ] && [ $res -lt 3 ]; then
+			continue
+		elif [ "$sday" != "*" ] && [ $day -ne $sday ] && [ $res -lt 4 ]; then
+			continue
+		elif [ "$smon" != "*" ] && [ $mon -ne $smon ]; then
+			continue
+		elif [ "$sdow" != "*" ] && [ $dow -ne $sdow ] && [ $res -lt 4 ]; then
+			continue
+		fi
+		echo "executing $f"
+		"$f"
+	done
+done
