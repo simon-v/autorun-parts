@@ -17,3 +17,11 @@ To indicate to `autorun-parts` that you are executing it less frequently than ev
     -m    monthly (days, hours and minutes are ignored)
 
 The `weekday` mark is always honored.
+
+### Other Notes
+
+This program is free software, released under the Apache License, Version 2.0. See the LICENSE file for more information.
+
+The program's canonical project page resides at https://simonvolpert.com/autorun-parts/
+
+I gratefully accept appreciation for my work in material form at __[bitcoincash:qp9ctaaz4rczxwf06wv34mq0ffv9gcvcfsm3sc9nuc](bitcoincash:qp9ctaaz4rczxwf06wv34mq0ffv9gcvcfsm3sc9nuc)__.
