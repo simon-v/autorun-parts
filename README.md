@@ -6,7 +6,7 @@ Well, not really. More accurately, it's a kind of "reverse task scheduler"; What
 
 `#@ minute hour day month weekday`
 
-Where all values are numeric (including `weekday`, which is the weekday number as printed by `date +%w`) and `#@` is a literal `#@`. A small subset of cron notation is supported, most notably using `*` as "any".
+Where all values are numeric (including `weekday`, which is the weekday number as printed by `date +%w`) and `#@` is a literal `#@`. A small subset of cron notation is supported: using `*` as "any" and passing several alternate field values in a comma-separated list.
 
 After you have added the cron-string to your script files, have `autorun-parts` execute with your preferred scheduler, with the paths of your script directories as the arguments.
 
