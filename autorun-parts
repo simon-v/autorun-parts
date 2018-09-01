@@ -46,18 +46,61 @@ for d in "$@"; do
 		smon=`echo "$tag" | cut -f5 -d\ `
 		sdow=`echo "$tag" | cut -f6 -d\ `
 		# match date and time
-		if [ "$smin" != "*" ] && [ $min -ne $smin ] && [ $res -lt 2 ]; then
-			continue
-		elif [ "$shour" != "*" ] && [ $hour -ne $shour ] && [ $res -lt 3 ]; then
-			continue
-		elif [ "$sday" != "*" ] && [ $day -ne $sday ] && [ $res -lt 4 ]; then
-			continue
-		elif [ "$smon" != "*" ] && [ $mon -ne $smon ]; then
-			continue
-		elif [ "$sdow" != "*" ] && [ $dow -ne $sdow ] && [ $res -lt 4 ]; then
-			continue
+		wants=0
+		if [ "$smin" == "*" ] || [ $res -gt 1 ]; then
+			wants=$((wants + 1))
+		else
+			for i in `echo $smin | tr "," " "`; do
+				if [ $i -eq $min ]; then
+					wants=$((wants + 1))
+				fi
+			done
 		fi
-		echo "executing $f"
-		"$f"
+		#echo "smin $smin min $min wants $wants"
+		if [ "$shour" == "*" ] || [ $res -gt 2 ]; then
+			wants=$((wants + 1))
+		else
+			for i in `echo $shour | tr "," " "`; do
+				if [ $i -eq $hour ]; then
+					wants=$((wants + 1))
+				fi
+			done
+		fi
+		#echo "shour $shour hour $hour wants $wants"
+		if [ "$sday" == "*" ] || [ $res -gt 3 ]]; then
+			wants=$((wants + 1))
+		else
+			for i in `echo $sday | tr "," " "`; do
+				if [ $i -eq $day ]; then
+					wants=$((wants + 1))
+				fi
+			done
+		fi
+		#echo "sday $sday day $day wants $wants"
+		if [ "$smon" == "*" ]; then
+			wants=$((wants + 1))
+		else
+			for i in `echo $smon | tr "," " "`; do
+				if [ $i -eq $mon ]; then
+					wants=$((wants + 1))
+				fi
+			done
+		fi
+		#echo "smon $smon mon $mon wants $wants"
+		if [ "$sdow" == "*" ]; then
+			wants=$((wants + 1))
+		else
+			for i in `echo $sdow | tr "," " "`; do
+				if [ $i -eq $dow ]; then
+					wants=$((wants + 1))
+				fi
+			done
+		fi
+		#echo "sdow $sdow dow $dow wants $wants"
+		# execute the file if it "wants" to be executed
+		if [ $wants -eq 5 ]; then
+			echo "executing $f"
+			"$f"
+		fi
 	done
 done
