@@ -12,8 +12,14 @@ mon=`date +%m`
 dow=`date +%w`
 
 if [ "$1" == "--help" ]; then
-	echo "Usage: autorun-parts PATH..."
+	echo "Usage: autorun-parts [RESOLUTION] PATH..."
 	echo "Go through a directory of scripts and execute the ones that \"want\" to be executed."
+	echo
+	echo "Scheduler resolution:"
+	echo "  -h    The scheduler is executed hourly; Ignore the minute field"
+	echo "  -d    The scheduler is executed daily; Ignore the hour and minute fields"
+	echo "  -m    The scheduler is executed monthly; Ignore the day, hour and minute fields"
+	echo
 	echo "See the README for more information."
 	exit
 fi
