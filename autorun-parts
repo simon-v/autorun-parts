@@ -73,7 +73,7 @@ for d in "$@"; do
 			done
 		fi
 		#echo "shour $shour hour $hour wants $wants"
-		if [ "$sday" == "*" ] || [ $res -gt 3 ]]; then
+		if [ "$sday" == "*" ] || [ $res -gt 3 ]; then
 			wants=$((wants + 1))
 		else
 			for i in `echo $sday | tr "," " "`; do
